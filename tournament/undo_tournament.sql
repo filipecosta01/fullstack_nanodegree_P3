@@ -1,7 +1,10 @@
 \c tournament;
-DROP TABLE match;
 
-DROP TABLE player;
+DROP VIEW results_view;
+
+DROP TABLE matches;
+
+DROP TABLE players;
 
 \c vagrant;
 

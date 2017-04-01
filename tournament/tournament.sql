@@ -22,4 +22,15 @@ CREATE TABLE matches (
   winner integer REFERENCES players (id_player)
 );
 
-\c vagrant;
+CREATE OR REPLACE VIEW results_view AS SELECT p.id_player, p.name,
+count (m.winner) as win_num, count(matches_played.id_match) as matches_num
+FROM players p LEFT JOIN (
+  SELECT p.id_player as id_player, m.id_match
+  FROM players p, matches m
+  WHERE p.id_player = m.id_player_one
+  OR p.id_player = m.id_player_two
+) as matches_played ON p.id_player = matches_played.id_player
+LEFT JOIN matches as m on p.id_player = m.winner
+GROUP BY p.id_player ORDER BY win_num DESC
+
+
